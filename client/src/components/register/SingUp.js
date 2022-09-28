@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Navigate, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./signUp.scss";
 import bgImage from "../../assets/images/register.svg";
@@ -11,7 +11,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "../../api/axios";
-
 
 const SignUp = () => {
   const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
@@ -39,7 +38,6 @@ const SignUp = () => {
   const [matchPasswordFocus, setMatchPasswordFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
 
   // useEffect ........................................................
   useEffect(() => {
@@ -63,16 +61,11 @@ const SignUp = () => {
     setErrMsg("");
   }, [userName, email, password, matchPassword]); // useEffect for set Error
   const navigate = useNavigate();
-  useEffect(() => {
-    if (success) {
-      // Navigate("/login");
-    }
-  }, [success]);
 
   // functions define ...................................................
 
   const priColor = "#040480";
-  const insColor = "white";
+  const insColor = "040480";
   const handleSubmit = async (e) => {
     e.preventDefault();
     const v1 = USER_REGEX.test(userName);
@@ -97,7 +90,7 @@ const SignUp = () => {
         }
       );
       console.log(response.data);
-      setSuccess(true);
+      navigate("/login");
     } catch (error) {
       if (!error?.response) {
         setErrMsg("Server not responding");
@@ -136,7 +129,8 @@ const SignUp = () => {
         </div>
         <p
           className={
-            userNameFocus && userName && !validUserName
+            (userNameFocus && userName && !validUserName) ||
+            (!validUserName && errMsg)
               ? "instruction"
               : "offScreen"
           }
@@ -165,7 +159,9 @@ const SignUp = () => {
         </div>
         <p
           className={
-            emailFocus && email && !validEmail ? "instruction" : "offScreen"
+            (emailFocus && email && !validEmail) || (!validEmail && errMsg)
+              ? "instruction"
+              : "offScreen"
           }
         >
           <FontAwesomeIcon icon={faInfoCircle} color={insColor} size="sm" />
@@ -188,7 +184,8 @@ const SignUp = () => {
         </div>
         <p
           className={
-            passwordFocus && password && !validPassword
+            (passwordFocus && password && !validPassword) ||
+            (!validPassword && errMsg)
               ? "instruction"
               : "offScreen"
           }
@@ -218,7 +215,8 @@ const SignUp = () => {
         </div>
         <p
           className={
-            matchPasswordFocus && !validMatchPassword
+            (matchPasswordFocus && !validMatchPassword) ||
+            (!validMatchPassword && errMsg)
               ? "instruction"
               : "offScreen"
           }

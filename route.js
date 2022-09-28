@@ -40,9 +40,6 @@ route.post("/register", async (req, res) => {
   }
 });
 
-// Verify jwt token
-//  route.use(jwtVerify);
-
 route.post("/signin", async (req, res) => {
   try {
     const { uname, password } = req.body;
@@ -56,7 +53,7 @@ route.post("/signin", async (req, res) => {
       const accessToken = jwt.sign(
         { username: dbUser.uname },
         process.env.ACCESS_SECRET_KEY,
-        { expiresIn: "30s" }
+        { expiresIn: "10m" }
       );
       const refreshToken = jwt.sign(
         { username: dbUser.uname },
@@ -102,6 +99,21 @@ route.post("/signin", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "User SignIn failed" });
+  }
+});
+
+// Verify jwt token
+// route.use(jwtVerify);
+
+route.get("/users", async (req, res) => {
+  try {
+    const users = await userModel.find();
+    // send user data to front-end
+    // const userData = { username: users.uname, role: users.role };
+    res.send(users);
+    // console.log(userData);
+  } catch (error) {
+    console.log(error);
   }
 });
 

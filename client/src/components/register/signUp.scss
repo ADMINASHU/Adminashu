@@ -34,13 +34,14 @@ $primary-bg-color: rgb(243, 243, 243);
         }
 
         .instruction {
-            color: white;
+            color: $primary-color;
             font-size: 10px;
-            background-color: $primary-color;
+            background-color: rgb(255, 172, 172);
             width: 350px;
             padding: 5px;
             border-radius: 10px;
         }
+
 
         .offScreen {
             display: none;

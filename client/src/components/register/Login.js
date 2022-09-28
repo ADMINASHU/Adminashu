@@ -12,7 +12,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "../../api/axios";
 
-
 const Login = () => {
   const { auth, setAuth } = useAuth();
 
@@ -26,11 +25,9 @@ const Login = () => {
 
   //useState for input fields..................................
   const [userName, setUserName] = useState("");
-  // const [validUserName, setValidUserName] = useState(false);
   const [userNameFocus, setUserNameFocus] = useState(false);
 
   const [password, setPassword] = useState("");
-  // const [validPassword, setValidPassword] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
@@ -43,7 +40,6 @@ const Login = () => {
   useEffect(() => {
     setErrMsg("");
   }, [userName, password]); // useEffect for set Error
-
 
   // functions define ................................................
   const priColor = "#040480";
